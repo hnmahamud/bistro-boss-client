@@ -1,0 +1,5 @@
+.featured-item {
+  background-image: url("../../../assets/home/featured.jpg");
+  background-color: gray;
+  background-blend-mode: multiply;
+}
