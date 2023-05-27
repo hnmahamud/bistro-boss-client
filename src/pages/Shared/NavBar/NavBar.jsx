@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthProviders";
 import { toast } from "react-toastify";
+import { FaCartPlus } from "react-icons/fa";
 
 const NavBar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -32,6 +33,10 @@ const NavBar = () => {
       <NavLink>Dashboard</NavLink>
       <NavLink to="/menu">Our Menu</NavLink>
       <NavLink to="/order/salads">Our Shop</NavLink>
+      <Link className="relative flex">
+        <FaCartPlus className="h-6 w-6"></FaCartPlus>
+        <div className="absolute -top-3 left-4 badge badge-secondary">+99</div>
+      </Link>
     </>
   );
   return (
