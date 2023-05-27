@@ -40,6 +40,7 @@ const Login = () => {
 
   // Use Location for redirect target page or home page
   const location = useLocation();
+  console.log(location);
   const navigate = useNavigate();
   const from = location?.state || "/";
 

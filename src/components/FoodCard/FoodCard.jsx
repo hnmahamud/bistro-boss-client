@@ -1,8 +1,68 @@
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthProviders";
+import Swal from "sweetalert2";
+import { useLocation, useNavigate } from "react-router-dom";
+
 const FoodCard = ({ item }) => {
+  const { user } = useContext(AuthContext);
   const { name, recipe, image, price } = item;
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const handleAddToCart = (menuItem) => {
-    console.log(menuItem);
+    const item = {
+      itemId: menuItem._id,
+      userEmail: user?.email,
+      name: menuItem.name,
+      recipe: menuItem.recipe,
+      image: menuItem.image,
+      price: menuItem.price,
+    };
+
+    if (user && user?.email) {
+      fetch("http://localhost:5000/carts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(item),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.insertedId) {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+              },
+            });
+
+            Toast.fire({
+              icon: "success",
+              title: "Item added successfully",
+            });
+          }
+        });
+    } else {
+      Swal.fire({
+        title: "Please login to order the food!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login Now",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login", { state: location?.pathname }, { replace: true });
+        }
+      });
+    }
   };
   return (
     <div className="card card-compact bg-base-100 shadow-md rounded-md border">
