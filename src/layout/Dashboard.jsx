@@ -72,7 +72,7 @@ const Dashboard = () => {
           >
             <FaCartPlus></FaCartPlus> My Cart
             <div className="badge badge-secondary">
-              {cart ? cart.length : 0}
+              +{cart ? cart.length : 0}
             </div>
           </NavLink>
 

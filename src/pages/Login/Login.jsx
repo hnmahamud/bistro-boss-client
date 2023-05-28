@@ -94,18 +94,38 @@ const Login = () => {
         // The signed-in user info.
         const user = result.user;
         console.log(user);
-        setNLoading(false);
-        toast("Login successful!", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        navigate(from, { replace: true });
+
+        const saveUser = { name: user.displayName, email: user.email };
+        fetch("http://localhost:5000/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(saveUser),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data) {
+              setNLoading(false);
+              toast("Login successful!", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+              navigate(from, { replace: true });
+            }
+          })
+          .catch((error) => {
+            setLoading(false);
+            setNLoading(false);
+            console.log(error);
+            setError(error);
+          });
       })
       .catch((error) => {
         setLoading(false);

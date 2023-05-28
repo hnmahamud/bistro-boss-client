@@ -47,25 +47,43 @@ const Registration = () => {
         // Update user profile
         profileUpdate(name, photo)
           .then(() => {
-            reset();
-            toast("Registration successful!", {
-              position: "top-center",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-            setLoading(false);
-            setNLoading(false);
-            navigate(from, { replace: true });
+            const saveUser = { name: data.name, email: data.email };
+            fetch("http://localhost:5000/users", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(saveUser),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.insertedId) {
+                  reset();
+                  toast("Registration successful!", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
+                  setLoading(false);
+                  setNLoading(false);
+                  navigate(from, { replace: true });
+                }
+              })
+              .catch((error) => {
+                setLoading(false);
+                setNLoading(false);
+                console.log(error);
+                setError(error);
+              });
           })
           .catch((error) => {
             setLoading(false);
             setNLoading(false);
-            navigate(from, { replace: true });
             console.log(error);
             setError(error);
           });
