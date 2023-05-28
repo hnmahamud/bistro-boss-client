@@ -3,9 +3,12 @@ import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthProviders";
 import { toast } from "react-toastify";
 import { FaCartPlus } from "react-icons/fa";
+import useCart from "../../../hooks/useCart";
 
 const NavBar = () => {
   const { user, logout } = useContext(AuthContext);
+  const [cart] = useCart();
+
   // const { pathname } = useLocation();
 
   const logoutHandler = () => {
@@ -35,7 +38,9 @@ const NavBar = () => {
       <NavLink to="/order/salads">Our Shop</NavLink>
       <Link className="relative flex">
         <FaCartPlus className="h-6 w-6"></FaCartPlus>
-        <div className="absolute -top-3 left-4 badge badge-secondary">+99</div>
+        <div className="absolute -top-3 left-4 badge badge-secondary">
+          +{cart ? cart.length : 0}
+        </div>
       </Link>
     </>
   );
