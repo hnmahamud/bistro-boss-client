@@ -23,7 +23,16 @@ const AllUsers = () => {
       confirmButtonText: "Yes!",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(`The user ${user.name} is an admin now!`, "success");
+        fetch(`http://localhost:5000/users/admin/${user._id}`, {
+          method: "PATCH",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.modifiedCount > 0) {
+              refetch();
+              Swal.fire(`The user ${user.name} is an admin now!`, "success");
+            }
+          });
       }
     });
   };
