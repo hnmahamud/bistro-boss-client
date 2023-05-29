@@ -66,7 +66,7 @@ const AllUsers = () => {
                   <th>
                     {user.role === "admin" ? (
                       <button
-                        className="btn btn-ghost hover:bg-success hover:text-white rounded-full tooltip"
+                        className="btn btn-ghost hover:bg-error hover:text-white rounded-full tooltip"
                         data-tip="Admin"
                       >
                         <FaUserSecret></FaUserSecret>
@@ -74,7 +74,7 @@ const AllUsers = () => {
                     ) : (
                       <button
                         onClick={() => handleMakeAdmin(user)}
-                        className="btn btn-ghost hover:bg-error hover:text-white rounded-full tooltip"
+                        className="btn btn-ghost hover:bg-success hover:text-white rounded-full tooltip"
                         data-tip="User"
                       >
                         <FaUser></FaUser>

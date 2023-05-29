@@ -10,6 +10,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
+import axios from "axios";
 
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
@@ -60,6 +61,21 @@ const AuthProviders = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      if (createUser && currentUser?.email) {
+        axios
+          .post("http://localhost:5000/jwt", {
+            email: currentUser.email,
+          })
+          .then((response) => {
+            console.log(response.data.token);
+            localStorage.setItem("bistro-access-token", response.data.token);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      } else {
+        localStorage.removeItem("bistro-access-token");
+      }
       setLoading(false);
       setFullLoading(false);
 
