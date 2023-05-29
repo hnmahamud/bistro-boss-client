@@ -67,7 +67,6 @@ const AuthProviders = ({ children }) => {
             email: currentUser.email,
           })
           .then((response) => {
-            console.log(response.data.token);
             localStorage.setItem("bistro-access-token", response.data.token);
           })
           .catch(function (error) {
