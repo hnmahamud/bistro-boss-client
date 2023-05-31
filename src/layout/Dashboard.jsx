@@ -50,7 +50,7 @@ const Dashboard = () => {
                 <FaHome></FaHome> Admin Home
               </NavLink>
               <NavLink
-                to="/dashboard/add-items"
+                to="/dashboard/add-item"
                 className={({ isActive }) =>
                   isActive
                     ? "text-white flex items-center gap-2"
