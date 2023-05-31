@@ -1,12 +1,11 @@
-import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { AuthContext } from "../../../context/AuthProviders";
-import { toast } from "react-toastify";
 import { FaCartPlus } from "react-icons/fa";
 import useCart from "../../../hooks/useCart";
+import Swal from "sweetalert2";
+import useAuth from "../../../hooks/useAuth";
 
 const NavBar = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout } = useAuth();
   const [cart] = useCart();
 
   // const { pathname } = useLocation();
@@ -14,15 +13,21 @@ const NavBar = () => {
   const logoutHandler = () => {
     logout()
       .then(() => {
-        toast("Logout successful!", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "success",
+          title: "Logout successful!",
         });
       })
       .catch((error) => {

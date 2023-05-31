@@ -1,16 +1,16 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { FaFacebookF, FaGoogle, FaGithub } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import logRegImg from "../../assets/others/authentication2.png";
-import { AuthContext } from "../../context/AuthProviders";
-import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
+import Swal from "sweetalert2";
+import useAuth from "../../hooks/useAuth";
 
 const Registration = () => {
   // Context API
-  const { createUser, profileUpdate, setLoading } = useContext(AuthContext);
+  const { createUser, profileUpdate, setLoading } = useAuth();
 
   // state
   const [error, setError] = useState("");
@@ -59,15 +59,21 @@ const Registration = () => {
               .then((data) => {
                 if (data.insertedId) {
                   reset();
-                  toast("Registration successful!", {
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
+                  const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                      toast.addEventListener("mouseenter", Swal.stopTimer);
+                      toast.addEventListener("mouseleave", Swal.resumeTimer);
+                    },
+                  });
+
+                  Toast.fire({
+                    icon: "success",
+                    title: "Registration successful!",
                   });
                   setLoading(false);
                   setNLoading(false);

@@ -68,15 +68,17 @@ const AuthProviders = ({ children }) => {
           })
           .then((response) => {
             localStorage.setItem("bistro-access-token", response.data.token);
+            setLoading(false);
+            setFullLoading(false);
           })
           .catch(function (error) {
             console.log(error);
           });
       } else {
         localStorage.removeItem("bistro-access-token");
+        setLoading(false);
+        setFullLoading(false);
       }
-      setLoading(false);
-      setFullLoading(false);
 
       return () => {
         return unsubscribe();

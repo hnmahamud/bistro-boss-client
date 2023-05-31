@@ -1,30 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthProviders";
 import useAxiosSecure from "./useAxiosSecure";
+import useAuth from "./useAuth";
 
 const useCart = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useAuth();
   const [axiosSecure] = useAxiosSecure();
 
   // const token = localStorage.getItem("bistro-access-token");
 
   const { refetch, data: cart = [] } = useQuery({
     queryKey: ["carts", user?.email],
-    // queryFn: async () => {
-    //   const response = await fetch(
-    //     `http://localhost:5000/carts?email=${user?.email}`,
-    //     {
-    //       headers: {
-    //         authorization: `Bearer ${token}`,
-    //       },
-    //     }
-    //   );
-    //   return response.json();
-    // },
+    // enabled: !loading,
     queryFn: async () => {
-      const response = await axiosSecure.get(`/carts?email=${user?.email}`);
-      return response.data;
+      if (user?.email && loading === false) {
+        const response = await axiosSecure.get(`/carts?email=${user?.email}`);
+        return response.data;
+      } else {
+        return [];
+      }
     },
   });
 

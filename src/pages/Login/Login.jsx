@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaFacebookF, FaGoogle, FaGithub } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -8,14 +8,14 @@ import {
 } from "react-simple-captcha";
 
 import logRegImg from "../../assets/others/authentication2.png";
-import { AuthContext } from "../../context/AuthProviders";
-import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+import useAuth from "../../hooks/useAuth";
 
 const Login = () => {
   // Use Context API
-  const { loginUser, googleLogin, setLoading } = useContext(AuthContext);
+  const { loginUser, googleLogin, setLoading } = useAuth();
 
   useEffect(() => {
     loadCaptchaEnginge(6);
@@ -65,15 +65,21 @@ const Login = () => {
         // Signed in
         const user = userCredential.user;
         console.log(user);
-        toast("Login successful!", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "success",
+          title: "Login successful!",
         });
         navigate(from, { replace: true });
       })
@@ -107,15 +113,21 @@ const Login = () => {
           .then((data) => {
             if (data) {
               setNLoading(false);
-              toast("Login successful!", {
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
+              const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener("mouseenter", Swal.stopTimer);
+                  toast.addEventListener("mouseleave", Swal.resumeTimer);
+                },
+              });
+
+              Toast.fire({
+                icon: "success",
+                title: "Login successful!",
               });
               navigate(from, { replace: true });
             }
