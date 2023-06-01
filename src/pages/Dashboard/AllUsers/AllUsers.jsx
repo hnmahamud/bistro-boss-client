@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { FaTrashAlt, FaUser, FaUserSecret } from "react-icons/fa";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 
 const AllUsers = () => {
   const [axiosSecure] = useAxiosSecure();
@@ -44,54 +45,60 @@ const AllUsers = () => {
       <Helmet>
         <title>Bistro Boss | All Users</title>
       </Helmet>
-      <div className="overflow-x-auto w-[80%] mx-auto space-y-4">
-        <h2 className="text-2xl font-semibold uppercase">
-          Total Users: {users && users.length}
-        </h2>
-        <table className="table w-full">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users &&
-              users.map((user, index) => (
-                <tr key={user._id}>
-                  <th>{index + 1}</th>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <th>
-                    {user.role === "admin" ? (
-                      <button
-                        className="btn btn-ghost hover:bg-error hover:text-white rounded-full tooltip"
-                        data-tip="Admin"
-                      >
-                        <FaUserSecret></FaUserSecret>
+      <div className="w-full space-y-8 my-8">
+        <SectionTitle
+          heading="Manage All Users"
+          subHeading="How many?"
+        ></SectionTitle>
+        <div className="overflow-x-auto w-[80%] mx-auto space-y-4">
+          <h2 className="text-2xl font-semibold uppercase">
+            Total Users: {users && users.length}
+          </h2>
+          <table className="table w-full">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users &&
+                users.map((user, index) => (
+                  <tr key={user._id}>
+                    <th>{index + 1}</th>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <th>
+                      {user.role === "admin" ? (
+                        <button
+                          className="btn btn-ghost hover:bg-error hover:text-white rounded-full tooltip"
+                          data-tip="Admin"
+                        >
+                          <FaUserSecret></FaUserSecret>
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleMakeAdmin(user)}
+                          className="btn btn-ghost hover:bg-success hover:text-white rounded-full tooltip"
+                          data-tip="User"
+                        >
+                          <FaUser></FaUser>
+                        </button>
+                      )}
+                    </th>
+                    <th>
+                      <button className="btn btn-ghost hover:bg-error hover:text-white rounded-full">
+                        <FaTrashAlt className="text-xl"></FaTrashAlt>
                       </button>
-                    ) : (
-                      <button
-                        onClick={() => handleMakeAdmin(user)}
-                        className="btn btn-ghost hover:bg-success hover:text-white rounded-full tooltip"
-                        data-tip="User"
-                      >
-                        <FaUser></FaUser>
-                      </button>
-                    )}
-                  </th>
-                  <th>
-                    <button className="btn btn-ghost hover:bg-error hover:text-white rounded-full">
-                      <FaTrashAlt className="text-xl"></FaTrashAlt>
-                    </button>
-                  </th>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+                    </th>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );

@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import useCart from "../../../hooks/useCart";
 import { FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
+import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 
 const MyCart = () => {
   const [cart, refetch] = useCart();
@@ -43,50 +44,56 @@ const MyCart = () => {
         <title>Bistro Boss | My-Cart</title>
       </Helmet>
 
-      <div className="overflow-x-auto w-[80%] mx-auto space-y-4">
-        <div className="font-semibold uppercase md:flex md:justify-evenly md:items-center md:gap-4">
-          <h2>Total Orders: {cart && cart.length}</h2>
-          <h2>Total Price: {totalPrice}</h2>
-          <button className="bg-[#D1A054] hover:bg-[#b58236] text-white border-none btn btn-xs">
-            Pay
-          </button>
-        </div>
-        <table className="table w-full">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Item</th>
-              <th>Name</th>
-              <th>Price</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cart &&
-              cart.map((item, index) => (
-                <tr key={item._id}>
-                  <th>{index + 1}</th>
-                  <td>
-                    <div className="avatar">
-                      <div className="mask mask-squircle w-12 h-12">
-                        <img src={item.image} />
+      <div className="w-full space-y-8 my-8">
+        <SectionTitle
+          subHeading="Excellent Ambience"
+          heading="My Bookings"
+        ></SectionTitle>
+        <div className="overflow-x-auto w-[80%] mx-auto space-y-4">
+          <div className="font-semibold uppercase md:flex md:justify-evenly md:items-center md:gap-4">
+            <h2>Total Orders: {cart && cart.length}</h2>
+            <h2>Total Price: {totalPrice}</h2>
+            <button className="bg-[#D1A054] hover:bg-[#b58236] text-white border-none btn btn-xs">
+              Pay
+            </button>
+          </div>
+          <table className="table w-full">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Item</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cart &&
+                cart.map((item, index) => (
+                  <tr key={item._id}>
+                    <th>{index + 1}</th>
+                    <td>
+                      <div className="avatar">
+                        <div className="mask mask-squircle w-12 h-12">
+                          <img src={item.image} />
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td>{item.name}</td>
-                  <td>{item.price}</td>
-                  <th>
-                    <button
-                      onClick={() => handleDelete(item)}
-                      className="btn btn-ghost hover:bg-error hover:text-white rounded-full"
-                    >
-                      <FaTrashAlt className="text-xl"></FaTrashAlt>
-                    </button>
-                  </th>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+                    </td>
+                    <td>{item.name}</td>
+                    <td>{item.price}</td>
+                    <th>
+                      <button
+                        onClick={() => handleDelete(item)}
+                        className="btn btn-ghost hover:bg-error hover:text-white rounded-full"
+                      >
+                        <FaTrashAlt className="text-xl"></FaTrashAlt>
+                      </button>
+                    </th>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );

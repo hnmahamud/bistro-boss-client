@@ -64,12 +64,12 @@ const AddItem = () => {
   };
 
   return (
-    <div className="w-full px-10">
+    <div className="w-full space-y-4 my-8">
       <SectionTitle
         subHeading="What's new"
         heading="Add an item"
       ></SectionTitle>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className="w-[80%] mx-auto" onSubmit={handleSubmit(onSubmit)}>
         <div className="form-control w-full mb-4">
           <label className="label">
             <span className="label-text font-semibold">Recipe Name*</span>

@@ -6,8 +6,6 @@ const useCart = () => {
   const { user, loading } = useAuth();
   const [axiosSecure] = useAxiosSecure();
 
-  // const token = localStorage.getItem("bistro-access-token");
-
   const { refetch, data: cart = [] } = useQuery({
     queryKey: ["carts", user?.email],
     // enabled: !loading,
