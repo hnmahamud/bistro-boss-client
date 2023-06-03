@@ -3,10 +3,12 @@ import { FaCartPlus } from "react-icons/fa";
 import useCart from "../../../hooks/useCart";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
+import useAdmin from "../../../hooks/useAdmin";
 
 const NavBar = () => {
   const { user, logout } = useAuth();
   const [cart] = useCart();
+  const [isAdmin] = useAdmin();
 
   // const { pathname } = useLocation();
 
@@ -37,16 +39,29 @@ const NavBar = () => {
   const navItems = (
     <>
       <NavLink>Home</NavLink>
-      <NavLink>Contact Us</NavLink>
-      <NavLink>Dashboard</NavLink>
       <NavLink to="/menu">Our Menu</NavLink>
       <NavLink to="/order/salads">Our Shop</NavLink>
-      <Link to="/dashboard/my-cart" className="relative flex">
-        <FaCartPlus className="h-6 w-6"></FaCartPlus>
-        <div className="absolute -top-3 left-4 badge badge-secondary">
-          +{cart ? cart.length : 0}
-        </div>
-      </Link>
+      <NavLink>Contact Us</NavLink>
+      {isAdmin === "userNull" ? (
+        ""
+      ) : (
+        <NavLink
+          to={isAdmin ? "/dashboard/admin-home" : "/dashboard/user-home"}
+        >
+          Dashboard
+        </NavLink>
+      )}
+
+      {cart === "userNull" ? (
+        ""
+      ) : (
+        <Link to="/dashboard/my-cart" className="relative flex">
+          <FaCartPlus className="h-6 w-6"></FaCartPlus>
+          <div className="absolute -top-3 left-4 badge badge-secondary">
+            +{cart ? cart.length : 0}
+          </div>
+        </Link>
+      )}
     </>
   );
   return (
