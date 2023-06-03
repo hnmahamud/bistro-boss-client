@@ -14,7 +14,7 @@ const FoodCard = ({ item }) => {
 
   const handleAddToCart = (menuItem) => {
     const item = {
-      itemId: menuItem._id,
+      menuItemId: menuItem._id,
       userEmail: user?.email,
       name: menuItem.name,
       recipe: menuItem.recipe,
