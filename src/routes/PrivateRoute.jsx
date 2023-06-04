@@ -12,7 +12,7 @@ const PrivateRoute = ({ children }) => {
 
   // if user is not available then return
   if (loading) {
-    return <LoadingSpinner fullScreen={false}></LoadingSpinner>;
+    return <LoadingSpinner fullScreen={true}></LoadingSpinner>;
   }
 
   // if user is logged in then go to private target page

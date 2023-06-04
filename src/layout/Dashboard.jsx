@@ -15,12 +15,17 @@ import {
 import { NavLink, Outlet } from "react-router-dom";
 import useCart from "../hooks/useCart";
 import useAdmin from "../hooks/useAdmin";
+import LoadingSpinner from "../pages/Shared/LoadingSpinner/LoadingSpinner";
 
 const Dashboard = () => {
   const [cart] = useCart();
 
   // const isAdmin = true;
-  const [isAdmin] = useAdmin();
+  const [isAdmin, isAdminLoading] = useAdmin();
+
+  if (isAdminLoading) {
+    return <LoadingSpinner fullScreen={true}></LoadingSpinner>;
+  }
 
   return (
     <div className="drawer drawer-mobile">

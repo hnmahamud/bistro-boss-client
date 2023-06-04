@@ -25,7 +25,7 @@ const MyCart = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/carts/${item._id}`, {
+        fetch(`https://bistro-boss-server-swart.vercel.app/carts/${item._id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -54,12 +54,14 @@ const MyCart = () => {
           <div className="font-semibold uppercase md:flex md:justify-evenly md:items-center md:gap-4">
             <h2>Total Orders: {cart && cart.length}</h2>
             <h2>Total Price: {totalPrice}</h2>
-            <Link
-              to="/dashboard/payment"
-              className="bg-[#D1A054] hover:bg-[#b58236] text-white border-none btn btn-xs"
-            >
-              Pay
-            </Link>
+            {totalPrice > 0 && (
+              <Link
+                to="/dashboard/payment"
+                className="bg-[#D1A054] hover:bg-[#b58236] text-white border-none btn btn-xs"
+              >
+                Pay
+              </Link>
+            )}
           </div>
           <table className="table w-full">
             <thead>

@@ -7,9 +7,11 @@ const AdminRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const [isAdmin, isAdminLoading] = useAdmin();
 
+  console.log(isAdminLoading);
+
   // if user is not available then return
   if (loading || isAdminLoading) {
-    return <LoadingSpinner fullScreen={false}></LoadingSpinner>;
+    return <LoadingSpinner fullScreen={true}></LoadingSpinner>;
   }
 
   // if user is logged in then go to private target page

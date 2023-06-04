@@ -67,7 +67,11 @@ const router = createBrowserRouter([
       // Admin Route
       {
         path: "admin-home",
-        element: <AdminHome></AdminHome>,
+        element: (
+          <AdminRoute>
+            <AdminHome></AdminHome>
+          </AdminRoute>
+        ),
       },
       {
         path: "manage-items",
